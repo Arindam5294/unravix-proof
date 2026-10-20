@@ -1,0 +1,21 @@
+name: deploy-testnet
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: arb-sepolia | eth-sepolia | base-sepolia
+        default: arb-sepolia
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: npx hardhat test test/UnravixProof.test.ts
+      - run: npx hardhat deploy-unravix-proof --network ${{ inputs.network }}
+        env:
+          PRIVATE_KEY: ${{ secrets.DEPLOYER_KEY }}
