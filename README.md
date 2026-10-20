@@ -14,3 +14,8 @@ npx hardhat test test/UnravixProof.test.ts   # 6 tests on CoFHE mocks
 PRIVATE_KEY=... pnpm arb-sepolia:deploy        # testnet
 ```
 Status: testnet MVP. Mocks don't reflect real gas/latency; verify the full encrypt → grade → decrypt round trip on Arbitrum Sepolia.
+
+## Live on Arbitrum Sepolia
+- Contract: `0xBBe53FFd63b9A718eF02c0A509457EE264431e43`
+- Real CoFHE round trip verified (2026-10-21): encrypted key → createQuiz (338,790 gas) → encrypted submit + FHE grading (706,817 gas, 3 questions) → student decrypts own score (correct).
+- Smoke test: `PRIVATE_KEY=... node scripts/testnet-smoke.mjs`
